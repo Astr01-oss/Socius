@@ -1,0 +1,63 @@
+.create_questionnaire h1{
+  text-align: center;
+  font-size: 28px;
+  font-weight: 100;
+  margin-bottom: 50px;
+}
+.create_questionnaire_form p{
+  font-size: 20px;
+  font-weight: 100;
+  margin-bottom: 5px;
+}
+.form_button{
+  padding: 15px 20px;
+  border-radius: 15px;
+  background-color: #060606;
+  color: #8B8B8B;
+  border: none;
+  font-size: 15px;
+}
+.create_questionnaire{
+  padding-bottom: 100px;
+}
+.create_questionnaire_form form{
+  background-color: rgba(217, 217, 217, 0.1);
+  padding: 30px 20px;
+  border-radius: 30px;
+  border: #8A38F5 1px solid;
+}
+.create_questionnaire_form input{
+  width: 100%;
+  margin-bottom: 30px;
+  padding: 10px 15px;
+  background-color: #060606;
+  border-radius: 20px;
+  border: none;
+  font-size: 15px;
+}
+.create_questionnaire_form input::placeholder{
+  color: rgba(255, 255, 255, .25);
+}
+.create_questionnaire_form{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 100px;
+}
+.button_cont{
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  justify-content: left;
+}
+.active{
+  background-color: #3b3b3b;
+}
+#go_to_flow{
+  width: 100%;
+  padding: 15px 20px;
+  font-size: 18px;
+  background-image: linear-gradient(to right, #000, #8A38F5);
+  border: none;
+  border-radius: 10px;
+}

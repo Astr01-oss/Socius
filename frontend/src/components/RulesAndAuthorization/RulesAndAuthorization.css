@@ -1,0 +1,89 @@
+.rules h1, .authorization h1{
+  font-style: 20px;
+  font-weight: bold;
+  margin-bottom: 35px;
+  background-image: linear-gradient(to right, #fff 40%, #AE81FF 60%);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+.rules li{
+  margin-bottom: 35px;
+  background-image: linear-gradient(to left, #fff , #AE81FF );
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  font-size: 18px;
+  padding: 10px;
+}
+.rules strong{
+  color: inherit;
+}
+.rules span{
+  margin-bottom: 30px;
+  color: #fff;
+  background-color: #240E36;
+  border-radius: 15px;
+  padding: 5px 15px;
+  border-left: #6B48A9 5px solid;
+}
+.rules button{
+  height: 60px;
+  width: 100%;
+  background-color: #6B48A9;
+  border-radius: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+}
+.rules{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  max-width: 300px;
+  padding: 20px;
+}
+.authorization{
+  display: flex;
+  min-width: 300px;
+  flex-direction: column;
+  gap: 20px;
+}
+.authorization button, .register_input{
+  padding: 10px 20px;
+  font-size: 15px;
+  background: transparent;
+  border-radius: 20px;
+  border: 1px #fff solid;
+}
+.authorization p{
+  text-align: center;
+  margin-top: 10px;
+  font-size: 15px;
+  background-image: linear-gradient(to right, #fff 40%, #AE81FF 60%);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+.authorization button{
+  background-image: linear-gradient(to right, #fff 40%, #AE81FF 60%);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+.inValid{
+  border: 1px solid red;
+}
+.authorization form{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.accountTitle{
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  color: #a3a3a3;
+  margin-top: 0;
+}

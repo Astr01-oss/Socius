@@ -1,0 +1,24 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  background-repeat: no-repeat;
+  color: #fff;
+  text-decoration: none;
+}
+
+:root {
+  --color-default: #8A38F5;
+}
+#root{
+  min-height: 100vh;
+}
+body{
+  display: block;
+  min-height: 100vh;
+  background-image: linear-gradient(black 90%, #491e81);
+  box-sizing: border-box;
+}
+input{
+  outline: none;
+}

@@ -1,0 +1,82 @@
+.container{
+  width: 100%;
+  height: 100vh;
+  padding: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+button{
+  cursor: pointer;
+}
+*:hover{
+  outline: none;
+}
+.hidden{
+  display: none;
+}
+.nav_pages button, .nav_panel button{
+  background-color: transparent;
+}
+.nav_pages button, #profile, #back{
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  background-color: #8A38F5;
+}
+.nav_pages{
+  display: flex;
+  gap: 30px;
+  background-color: rgba(217, 217, 217, .1);
+  padding: 10px 30px;
+  border: #8A38F5 1px solid;
+  border-radius: 100px;
+}
+#likes{
+  -webkit-mask-image: url('./components/icons/likes.svg');
+  mask-image: url('./components/icons/likes.svg');
+}
+#matches{
+  -webkit-mask-image: url('./components/icons/friends.svg');
+  mask-image: url('./components/icons/friends.svg');
+}
+#chat{
+  -webkit-mask-image: url('./components/icons/chat.svg');
+  mask-image: url('./components/icons/chat.svg');
+}
+#profile{
+  -webkit-mask-image: url('./components/icons/profile.svg');
+  mask-image: url('./components/icons/profile.svg');
+}
+#back{
+  -webkit-mask-image: url('./components/icons/back.svg');
+  mask-image: url('./components/icons/back.svg');
+  mask-size: auto;
+  mask-position: 5px;
+}
+.profile_button{
+  border: 1px #8A38F5 solid;
+  padding: 10px;
+  border-radius: 100px;
+}
+.nav_panel{
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+  align-items: center;
+  gap: 30px;
+  width: 350px;
+}
+.logo{
+  height: 40px;
+}
+.nullCard{
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
