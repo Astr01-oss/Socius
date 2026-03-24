@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './Authorization.css'
 import CreateQusetionnaire from '../../edit-profile/ui/CreateQuestionnaire'
+import { registerUser, loginUser } from '../../../shared/api/userApi'
 
 function Authorization({myCard}){
 
@@ -41,18 +42,31 @@ function Authorization({myCard}){
     }
     }, [password, rPassword]);
 
-  function registration(e){
+  async function registration(e){
     e.preventDefault()
     if (login && password){
       if(loginValid && passwordValid && rPasswordValid){
+        try {
+          const data = await registerUser(login, password)
+          console.log(`Register succesfull : ${data}`)
           setToQusetionnaire(true)
+        } catch (err : any){
+          console.log(`error ${err}`)
+        }
+          
       }
     }
   }
 
-  function logIn(e){
+  async function logIn(e){
     e.preventDefault()
-    setToQusetionnaire(true)
+    try {
+      const data = await loginUser(login, password)
+      console.log(`Login succesfull : ${data}`)
+      setToQusetionnaire(true)
+    } catch (err : any){
+      console.log(`error ${err}`)
+    }
   }
   
   function goRegistration(){
