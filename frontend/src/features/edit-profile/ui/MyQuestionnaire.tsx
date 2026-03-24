@@ -1,8 +1,8 @@
 import { useState } from "react"
-import Characteristics from "../Card/Characteristics"
-import emptyavatar from "../icons/emptyavatar.jpg"
+import Characteristics from "../../../entities/user/ui/Characteristics"
+import emptyavatar from "../../../components/icons/emptyavatar.jpg"
 import CreateQusetionnaire from "./CreateQuestionnaire"
-import NavPanel from "../NavPanel"
+import NavPanel from "../../../widgets/nav-panel/ui/NavPanel"
 
 function MyQuestionnaire({myCardSettings, myCard}){
   const avatar = ''

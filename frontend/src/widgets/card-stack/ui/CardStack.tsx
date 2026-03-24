@@ -1,6 +1,6 @@
-import NavPanel from "../NavPanel"
-import Card from '../Card/Card'
-import './Flow.css'
+import NavPanel from "../../nav-panel/ui/NavPanel"
+import Card from '../../../entities/user/ui/Card'
+import './CardStack.css'
 import { useEffect, useState } from "react"
 
 function Flow({accountList, onPage}){

@@ -1,5 +1,5 @@
 import './Card.css'
-import emptyavatar from '../icons/emptyavatar.jpg'
+import emptyavatar from '../../../components/icons/emptyavatar.jpg'
 import Characteristics from './Characteristics'
 
 function Card({accountList, like, disslike}){

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import './RulesAndAuthorization.css'
-import Authorization from './Authorization';
+import './Rules.css'
+import Authorization from '../../features/auth/ui/Authorization';
 
 function Rules({myCard}){
   const [AuthorizationPage, setAuthorizationPage] = useState('')

@@ -1,4 +1,4 @@
-import Flow from "./Flow/Flow"
+import Flow from "../../widgets/card-stack/ui/CardStack"
 
   const accountLikeList = [ 
     {name : 'Лена', age : 19, city : 'Москва', games : ["Дота", "Валорант", "Кс"], id: 1},

@@ -1,4 +1,4 @@
-import Flow from "./Flow/Flow"
+import CardStack from "../../widgets/card-stack/ui/CardStack"
 
 function Matches(){
 

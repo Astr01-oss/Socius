@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router'
-import './../App.css'
+import '../../../App.css'
 
-import logo from "./icons/logo.svg"
+import logo from "../../../components/icons/logo.svg"
 
 function NavPanel({onPage}){
 

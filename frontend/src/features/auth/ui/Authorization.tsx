@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import './RulesAndAuthorization.css'
-import CreateQusetionnaire from '../MyQuestionnaire/CreateQuestionnaire'
+import './Authorization.css'
+import CreateQusetionnaire from '../../edit-profile/ui/CreateQuestionnaire'
 
 function Authorization({myCard}){
 
