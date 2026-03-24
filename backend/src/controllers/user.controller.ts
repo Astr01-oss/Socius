@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { getAllUsers } from '../services/user.service';
+import { getAllusers } from "../services/user.service";
 
-export const fetchUsers = (req: Request, res: Response) => {
-  const data = getAllUsers()
+export const fetchUsers = (req: Request, res : Response) => {
+  const data = getAllusers()
   res.json(data)
 }

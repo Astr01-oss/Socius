@@ -7,11 +7,12 @@ import CardStack from './widgets/card-stack/ui/CardStack'
 import MyQuestionnaire from './features/edit-profile/ui/MyQuestionnaire'
 import Likes from './pages/likes/LikesPage'
 import Matches from './pages/matches/MatchesPage'
+import { isAuthenticated } from './shared/api/auth'
 
 
 function App() {
 
-  const [authorized, setAuthorized] = useState(false)
+  const authorized = isAuthenticated()
   const [myCardSettings, setMyCardSettings] = useState({})
 
   const myQuestionnaire = {name : 'Даня', age : 19, city : 'Москва', gender : "Парень", id : Date.now()}

@@ -1,8 +1,10 @@
 export interface User {
-  id : string
-  name : string
-  age : number
-  bio : string
-  intterests : string[]
-  photos : string[]
+  id : number
+  name? : string
+  age? : number
+  bio? : string
+  interests? : string
+  photos? : string
+  phone : string, 
+  password : string
 }

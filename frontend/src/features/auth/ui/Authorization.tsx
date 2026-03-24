@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './Authorization.css'
 import CreateQusetionnaire from '../../edit-profile/ui/CreateQuestionnaire'
-import { registerUser, loginUser } from '../../../shared/api/userApi'
+import { authAPI } from '../../../shared/api/auth'
 
 function Authorization({myCard}){
 
@@ -47,13 +47,13 @@ function Authorization({myCard}){
     if (login && password){
       if(loginValid && passwordValid && rPasswordValid){
         try {
-          const data = await registerUser(login, password)
-          console.log(`Register succesfull : ${data}`)
-          setToQusetionnaire(true)
+          const response = await authAPI.register(login , password)
+          console.log(response)
+          if (!response){throw new Error(`warn : ${response}`)}
+          else setAccountAvailability(true)
         } catch (err : any){
           console.log(`error ${err}`)
         }
-          
       }
     }
   }
@@ -61,9 +61,12 @@ function Authorization({myCard}){
   async function logIn(e){
     e.preventDefault()
     try {
-      const data = await loginUser(login, password)
-      console.log(`Login succesfull : ${data}`)
-      setToQusetionnaire(true)
+          const response = await authAPI.login(login, password)
+          if (!response){throw new Error(`warn : ${response}`)}
+          else {
+            setToQusetionnaire(true)
+            console.log(`Вы успешно авторизовались по номеру : ${login}`)
+          }
     } catch (err : any){
       console.log(`error ${err}`)
     }
