@@ -8,7 +8,7 @@ function Matches(){
   ]
 
   return(
-    <Flow accountList={accountMathesList} onPage = {'matches'}/>
+    <CardStack accountList={accountMathesList} onPage = {'matches'}/>
   )
 }
 
