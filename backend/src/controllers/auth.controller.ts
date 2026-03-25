@@ -49,11 +49,7 @@ class AuthController {
       
       res.json({
         success: true,
-        token: result,
-        user: {
-          id: result.user?.id,
-          phone: result.user?.phone
-        }
+        ...result
       })
     } catch (e: any) {
       if (e.message === 'Пользователь не найден') {

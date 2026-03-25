@@ -57,7 +57,3 @@ export const authAPI = {
     localStorage.removeItem('user')
   }
 }
-
-export const cardInfoApi = {
-  
-}

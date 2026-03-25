@@ -25,11 +25,11 @@ function Flow({accountList, onPage}){
   return(
     <div className="container">
       <div className="content_container">
-        {
-          onPage === 'flow'?
-          <Card like = {like} disslike = {disslike} accountList = {accountList.length === accountNumber? setAccountNumber(0) : accountList[accountNumber]}/>
-          :
-          accountList.length === accountNumber? nullCard() : <Card like = {like} disslike = {disslike} accountList = {accountList[accountNumber]}/>
+        {  
+          accountList.length === accountNumber? 
+          nullCard() 
+          : 
+          <Card like = {like} disslike = {disslike} accountList = {accountList[accountNumber]}/>
         }
         <NavPanel onPage={onPage === 'flow'? 'flow' : ''}/>
       </div>

@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
+import { isAuthenticated } from "../../../shared/api/auth";
 
-function Main({authorized}){
+const authorized = isAuthenticated()
+
+function Main(){
 
   const navigate = useNavigate()
   const authorization = () => {navigate('/authorization');};

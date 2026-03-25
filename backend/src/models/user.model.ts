@@ -1,10 +1,14 @@
 export interface User {
   id : number
-  name? : string
-  age? : number
-  bio? : string
-  interests? : string
-  photos? : string
-  phone : string, 
+  phone : string
   password : string
+  questionary? : {
+    name : string
+    age : number
+    gender : string
+    city : string
+    bio? : string
+    interests? : string[]
+    photos? : string
+  }
 }

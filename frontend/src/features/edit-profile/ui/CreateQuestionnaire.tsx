@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './MyQuestionnaire.css'
 import { useNavigate } from 'react-router';
+import { cardApi } from '../../../shared/api/card';
 
 function CreateQusetionnaire({myCard}){
 
@@ -47,7 +48,8 @@ function CreateQusetionnaire({myCard}){
   function goToFlow(e){
     e.preventDefault()
     if(gender && flowGender && age && name && city){    
-      const myQuestionnaire = {name : name, age : age, city : city, gender : gender, id : Date.now()}
+      const myQuestionnaire = {name : name, age : age, city : city, gender : gender}
+      cardApi.createCard(myQuestionnaire)
       myCard(myQuestionnaire)
       flow()
     }

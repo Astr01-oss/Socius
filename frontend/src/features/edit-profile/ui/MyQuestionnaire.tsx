@@ -5,9 +5,9 @@ import CreateQusetionnaire from "./CreateQuestionnaire"
 import NavPanel from "../../../widgets/nav-panel/ui/NavPanel"
 
 function MyQuestionnaire({myCardSettings, myCard}){
+
   const avatar = ''
   const [redact, goToReadact] = useState(false)
-
   function myCardInfo(){
     return(
       <div className="container">
