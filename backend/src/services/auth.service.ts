@@ -52,13 +52,20 @@ class AuthService {
   async verifyToken(token: string) {
     try {
       const decoded = jwt.verify(token, SECRET) as { id: number }
+<<<<<<< HEAD
       
+=======
+>>>>>>> bea48a2958676d9b00887d11bd89725383ed023a
       const user = users.find(u => u.id === decoded.id)
       
       if (!user) {
         throw new Error('Пользователь не найден')
       }
+<<<<<<< HEAD
       
+=======
+
+>>>>>>> bea48a2958676d9b00887d11bd89725383ed023a
       return {
         id: user.id,
         phone: user.phone
