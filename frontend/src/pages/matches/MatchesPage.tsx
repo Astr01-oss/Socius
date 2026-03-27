@@ -1,15 +1,49 @@
-import CardStack from "../../widgets/card-stack/ui/CardStack"
+import { useEffect, useState } from "react";
+import { matchApi } from "../../shared/api/match";
+import Card from '../../entities/user/ui/Card';
+import NavPanel from "../../widgets/nav-panel/ui/NavPanel";
 
-function Matches(){
+function MatchesPage() {
+  const [matches, setMatches] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const accountMathesList = [ 
-    {name : 'Ника', age : 18, city : 'Москва', games : ["Дота", "Валорант", "Кс"], id: 1},
-    {name : 'Вика', age : 23, city : 'Москва', games : ["Майнкрафт", "Кс"], id: 1},
-  ]
+  useEffect(() => {
+    const loadMatches = async () => {
+      try {
+        const data = await matchApi.getMatches();
+        setMatches(data);
+      } catch (error) {
+        console.error("Ошибка загрузки мэтчей:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadMatches();
+  }, []);
 
-  return(
-    <CardStack accountList={accountMathesList} onPage = {'matches'}/>
-  )
+  if (loading) return <div className="container">Загрузка...</div>;
+
+  if (matches.length === 0) {
+    return (
+      <div className="container">
+        <div className="content_container">
+          <h1 className="nullCard">У вас пока нет взаимных симпатий</h1>
+          <NavPanel onPage="" />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container">
+      <div className="content_container">
+        {matches.map((match, idx) => (
+          <Card key={idx} accountList={match} like={() => {}} disslike={() => {}} />
+        ))}
+        <NavPanel onPage="" />
+      </div>
+    </div>
+  );
 }
 
-export default Matches
+export default MatchesPage;

@@ -31,24 +31,31 @@ export const authAPI = {
     return data
   },
 
-  async verify() {
-    const token = localStorage.getItem('token')
-    if (!token) return null
-    
-    const response = await fetch(`${defaultRef}/api/auth/verify`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
+  async verify(): Promise<{ id: number; phone: string } | null> {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    try {
+      const response = await fetch(`${defaultRef}/api/auth/verify`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        return data.user;
+      } else {
+        // Если токен невалиден, удаляем его
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        return null;
       }
-    })
-    
-    const data = await response.json()
-    
-    if (data.success) {
-      return data.user
-    } else {
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
-      return null
+    } catch (error) {
+      console.error('Ошибка проверки токена:', error);
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      return null;
     }
   },
 

@@ -1,19 +1,30 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { isAuthenticated } from "../../../shared/api/auth";
+import { authAPI } from "../../../shared/api/auth";
 
-const authorized = isAuthenticated()
-
-function Main(){
-
-  const navigate = useNavigate()
-  const authorization = () => {navigate('/authorization');};
-  const flow = () => {navigate('/flow');};
+function Main() {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    authorized? flow() : authorization()
-  }, [])
+    const checkAuth = async () => {
+      const user = await authAPI.verify();
+      if (user) {
+        navigate('/flow');
+      } else {
+        navigate('/authorization');
+      }
+      setLoading(false);
+    };
 
+    checkAuth();
+  }, [navigate]);
+
+  if (loading) {
+    return <div className="container">Загрузка...</div>;
+  }
+
+  return null; // или можно вернуть спиннер
 }
 
-export default Main
+export default Main;

@@ -18,7 +18,7 @@ button{
 .nav_pages button, .nav_panel button{
   background-color: transparent;
 }
-.nav_pages button, #profile, #back{
+.nav_pages button, #profile, #back, #logout{
   -webkit-mask-size: contain;
   mask-size: contain;
   -webkit-mask-repeat: no-repeat;
@@ -57,6 +57,12 @@ button{
   mask-image: url('./components/icons/back.svg');
   mask-size: auto;
   mask-position: 5px;
+}
+#logout{
+  -webkit-mask-image: url('./components/icons/Logout.svg');
+  mask-image: url('./components/icons/Logout.svg');
+  -webkit-mask-position-x: -5px;
+  mask-size: auto;
 }
 .profile_button{
   border: 1px #8A38F5 solid;

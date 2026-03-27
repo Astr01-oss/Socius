@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
-import { getAllusers } from "../services/user.service";
+import { getAllUsers } from "../services/user.service";
 
-export const fetchUsers = (req: Request, res : Response) => {
-  const data = getAllusers()
-  res.json(data)
-}
+export const fetchUsers = async (req: Request, res: Response) => {
+  try {
+    const data = await getAllUsers();
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Ошибка получения пользователей' });
+  }
+};

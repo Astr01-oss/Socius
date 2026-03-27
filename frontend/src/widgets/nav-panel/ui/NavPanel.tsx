@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router'
 import '../../../App.css'
+import { authAPI } from '../../../shared/api/auth'
 
 import logo from "../../../components/icons/logo.svg"
 
@@ -10,7 +11,12 @@ function NavPanel({onPage}){
   const flow = () => {navigate('/flow')}
   const likes = () => {navigate('/likes')}
   const matches = () => {navigate('/matches')}
+  const main = () => {navigate('/')}
 
+  function logout(){
+    authAPI.logout()
+    main()
+  }
 
   return(
     <div className="nav_panel">
@@ -24,7 +30,7 @@ function NavPanel({onPage}){
       :
       <div className='profile_button' onClick={flow}><button id='back'></button></div>  
       }
-      
+      <div className='profile_button' onClick={logout}><button id='logout'></button></div> 
     </div>
   )
 }

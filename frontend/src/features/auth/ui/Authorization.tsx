@@ -1,119 +1,200 @@
-import { useEffect, useState } from 'react'
-import './Authorization.css'
-import CreateQusetionnaire from '../../edit-profile/ui/CreateQuestionnaire'
-import { authAPI } from '../../../shared/api/auth'
+import { useEffect, useState } from 'react';
+import './Authorization.css';
+import CreateQusetionnaire from '../../edit-profile/ui/CreateQuestionnaire';
+import { authAPI } from '../../../shared/api/auth';
+import { cardApi } from '../../../shared/api/card';
+import { useNavigate } from 'react-router';
 
-function Authorization({myCard}){
+function Authorization({ myCard }) {
+  const navigate = useNavigate();
 
-  const [login, setLogin] = useState('')
-  const [password, setPassword] = useState('')
-  const [rPassword, setRPassword] = useState('')
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [rPassword, setRPassword] = useState('');
 
-  const [loginValid, setLoginValid] = useState(true)
-  const [passwordValid, setPasswordValid] = useState(true)
-  const [rPasswordValid, setRPasswordValid] = useState(true)
+  const [loginValid, setLoginValid] = useState(true);
+  const [passwordValid, setPasswordValid] = useState(true);
+  const [rPasswordValid, setRPasswordValid] = useState(true);
 
-  const [accountAvailability, setAccountAvailability] = useState(false)
-
-  const [ToQusetionnaire, setToQusetionnaire] = useState(false)
+  const [accountAvailability, setAccountAvailability] = useState(false);
+  const [ToQusetionnaire, setToQusetionnaire] = useState(false);
+  const [userId, setUserId] = useState<number | null>(null); // для передачи в анкету
 
   function checkInput(value, type, setInputName, setInputValidName) {
-    setInputName(value); 
-    
+    setInputName(value);
     if (type === 'login') {
-        const isValid = value[0] === '+' 
-            ? value.length === 12
-            : value.length === 11
-        setInputValidName(isValid);
+      const isValid =
+        value[0] === '+' ? value.length === 12 : value.length === 11;
+      setInputValidName(isValid);
     }
     if (type === 'password') {
-        const isValid = value.length > 7 && value.length < 20;
-        setInputValidName(isValid);
+      const isValid = value.length > 7 && value.length < 20;
+      setInputValidName(isValid);
     }
   }
 
   useEffect(() => {
     if (rPassword) {
-        const isValid = password === rPassword;
-        setRPasswordValid(isValid);
-    } 
-    else {
-        setRPasswordValid(false);
+      const isValid = password === rPassword;
+      setRPasswordValid(isValid);
+    } else {
+      setRPasswordValid(false);
     }
-    }, [password, rPassword]);
+  }, [password, rPassword]);
 
-  async function registration(e){
-    e.preventDefault()
-    if (login && password){
-      if(loginValid && passwordValid && rPasswordValid){
+  // Общая функция после успешной аутентификации (логин или регистрация)
+  const handleSuccessfulAuth = async (userId: number) => {
+    try {
+      // Пытаемся получить анкету
+      const questionnaire = await cardApi.myCard();
+      if (questionnaire && Object.keys(questionnaire).length > 0) {
+        // Анкета есть → сразу в ленту
+        navigate('/flow');
+      } else {
+        // Анкеты нет → показываем форму создания
+        setUserId(userId);
+        setToQusetionnaire(true);
+      }
+    } catch (error: any) {
+      // Если ошибка "Анкета не заполнена" — показываем форму создания
+      if (error.message === 'Анкета не заполнена') {
+        setUserId(userId);
+        setToQusetionnaire(true);
+      } else {
+        console.error('Ошибка проверки анкеты:', error);
+        // В случае другой ошибки тоже переходим к созданию анкеты
+        setUserId(userId);
+        setToQusetionnaire(true);
+      }
+    }
+  };
+
+  async function registration(e) {
+    e.preventDefault();
+    if (login && password) {
+      if (loginValid && passwordValid && rPasswordValid) {
         try {
-          const response = await authAPI.register(login , password)
-          console.log(response)
-          if (!response){throw new Error(`warn : ${response}`)}
-          else setAccountAvailability(true)
-        } catch (err : any){
-          console.log(`error ${err}`)
+          const response = await authAPI.register(login, password);
+          if (!response.success) {
+            throw new Error(response.error || 'Ошибка регистрации');
+          }
+          // После успешной регистрации сразу логинимся
+          const loginResponse = await authAPI.login(login, password);
+          if (loginResponse.success) {
+            await handleSuccessfulAuth(loginResponse.user.id);
+          } else {
+            console.error('Ошибка автоматического входа');
+          }
+        } catch (err: any) {
+          console.log(`error ${err}`);
         }
       }
     }
   }
 
-  async function logIn(e){
-    e.preventDefault()
+  async function logIn(e) {
+    e.preventDefault();
     try {
-          const response = await authAPI.login(login, password)
-          if (!response){throw new Error(`warn : ${response}`)}
-          else {
-            setToQusetionnaire(true)
-            console.log(`Вы успешно авторизовались по номеру : ${login}`)
-          }
-    } catch (err : any){
-      console.log(`error ${err}`)
+      const response = await authAPI.login(login, password);
+      if (!response.success) {
+        throw new Error(response.error || 'Ошибка входа');
+      }
+      await handleSuccessfulAuth(response.user.id);
+    } catch (err: any) {
+      console.log(`error ${err}`);
     }
   }
-  
-  function goRegistration(){
-    setAccountAvailability(false)
-  }
-  function registrationForm(){
-    return(
-      <form>
-        <input type="email" placeholder='Номер телефона' className={(loginValid ? '' : 'inValid') + ' register_input'} onChange={e => checkInput(e.target.value, 'login', setLogin, setLoginValid)}/>
-        <input type="password" placeholder='Пароль' className={(passwordValid ? '' : 'inValid') + ' register_input'} onChange={e => checkInput(e.target.value, 'password', setPassword, setPasswordValid)}/>
-        <input type="password" placeholder='Повторить пароль' className={(rPasswordValid ? '' : 'inValid') + ' register_input'} onChange={e => checkInput(e.target.value, 'rpassword', setRPassword, setRPasswordValid)}/>
-        <button onClick={registration}>Регистрация</button>
-        <a className='accountTitle' onClick={setAccountAvailability}>У меня есть аккаунт</a>
-      </form>
-    )
-  }
-  function loginForm(){
-    return(
-      <form action="login">
-        <input type="email" placeholder='Номер телефона' className={(loginValid ? '' : 'inValid') + ' register_input'} onChange={e => checkInput(e.target.value, 'login', setLogin, setLoginValid)}/>
-        <input type="password" placeholder='Пароль' className={(passwordValid ? '' : 'inValid') + ' register_input'} onChange={e => checkInput(e.target.value, 'password', setPassword, setPasswordValid)}/>
-        <button type='submit' onClick={logIn}>Вход</button>
-        <a className='accountTitle' onClick={goRegistration}>У меня нету аккаунта</a>
-      </form>
-    )
+
+  function goRegistration() {
+    setAccountAvailability(false);
   }
 
-  function auth(){
-    return(
+  function registrationForm() {
+    return (
+      <form>
+        <input
+          type="email"
+          placeholder="Номер телефона"
+          className={(loginValid ? '' : 'inValid') + ' register_input'}
+          onChange={(e) =>
+            checkInput(e.target.value, 'login', setLogin, setLoginValid)
+          }
+        />
+        <input
+          type="password"
+          placeholder="Пароль"
+          className={(passwordValid ? '' : 'inValid') + ' register_input'}
+          onChange={(e) =>
+            checkInput(e.target.value, 'password', setPassword, setPasswordValid)
+          }
+        />
+        <input
+          type="password"
+          placeholder="Повторить пароль"
+          className={(rPasswordValid ? '' : 'inValid') + ' register_input'}
+          onChange={(e) =>
+            checkInput(e.target.value, 'rpassword', setRPassword, setRPasswordValid)
+          }
+        />
+        <button onClick={registration}>Регистрация</button>
+        <a className="accountTitle" onClick={() => setAccountAvailability(true)}>
+          У меня есть аккаунт
+        </a>
+      </form>
+    );
+  }
+
+  function loginForm() {
+    return (
+      <form action="login">
+        <input
+          type="email"
+          placeholder="Номер телефона"
+          className={(loginValid ? '' : 'inValid') + ' register_input'}
+          onChange={(e) =>
+            checkInput(e.target.value, 'login', setLogin, setLoginValid)
+          }
+        />
+        <input
+          type="password"
+          placeholder="Пароль"
+          className={(passwordValid ? '' : 'inValid') + ' register_input'}
+          onChange={(e) =>
+            checkInput(e.target.value, 'password', setPassword, setPasswordValid)
+          }
+        />
+        <button type="submit" onClick={logIn}>
+          Вход
+        </button>
+        <a className="accountTitle" onClick={goRegistration}>
+          У меня нету аккаунта
+        </a>
+      </form>
+    );
+  }
+
+  function auth() {
+    return (
       <div className="container">
         <div className="authorization">
-          <button >Войти с Telegram</button>
+          <button>Войти с Telegram</button>
           <p>Войти вручную</p>
-          {accountAvailability? loginForm() : registrationForm()}
+          {accountAvailability ? loginForm() : registrationForm()}
         </div>
       </div>
-    )
+    );
   }
-  return(
-    ToQusetionnaire?
-    <CreateQusetionnaire myCard = {myCard}/>
-    :
+
+  return ToQusetionnaire ? (
+    <CreateQusetionnaire
+      myCard={myCard}
+      onSuccess={() => {
+        navigate('/flow');
+      }}
+    />
+  ) : (
     auth()
-  )
-  
+  );
 }
-export default Authorization
+
+export default Authorization;
