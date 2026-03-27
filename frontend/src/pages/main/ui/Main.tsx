@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { authAPI } from "../../../shared/api/auth";
+import Loader from "../../../widgets/lodaer/Loader";
 
 function Main() {
   const navigate = useNavigate();
@@ -21,10 +22,10 @@ function Main() {
   }, [navigate]);
 
   if (loading) {
-    return <div className="container">Загрузка...</div>;
+    return <Loader/>;
   }
 
-  return null; // или можно вернуть спиннер
+  return null;
 }
 
 export default Main;

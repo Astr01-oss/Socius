@@ -1,4 +1,4 @@
-*{
+* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -6,18 +6,22 @@
   color: #fff;
   text-decoration: none;
 }
-
 :root {
   --color-default: #8A38F5;
 }
-#root{
-  min-height: 100vh;
-}
-body{
-  display: block;
-  min-height: 100vh;
+body {
+  min-height: 100%;
+  height: auto;
   background-image: linear-gradient(black 90%, #491e81);
+  background-attachment: fixed;  
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 input{
   outline: none;

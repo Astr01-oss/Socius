@@ -37,7 +37,6 @@ function CardStack({ onPage }) {
         setMatchMessage(`Вы понравились ${target.name}! Это взаимно!`);
         setTimeout(() => setMatchMessage(null), 3000);
       }
-      // Переход к следующей карточке
       setCurrentIndex(prev => prev + 1);
     } catch (error) {
       console.error("Ошибка при свайпе:", error);

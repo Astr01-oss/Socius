@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { matchApi } from "../../shared/api/match";
 import Card from '../../entities/user/ui/Card';
 import NavPanel from "../../widgets/nav-panel/ui/NavPanel";
+import Loader from "../../widgets/lodaer/Loader";
 
 function MatchesPage() {
   const [matches, setMatches] = useState([]);
@@ -21,7 +22,7 @@ function MatchesPage() {
     loadMatches();
   }, []);
 
-  if (loading) return <div className="container">Загрузка...</div>;
+  if (loading) return <Loader/>;
 
   if (matches.length === 0) {
     return (

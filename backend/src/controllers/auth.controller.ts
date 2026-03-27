@@ -126,6 +126,21 @@ class AuthController {
       })
     }
   }
+  async telegramLogin(req: Request, res: Response) {
+  try {
+    const { initData } = req.body;
+    if (!initData) {
+      return res.status(400).json({ success: false, error: "Не переданы данные Telegram" });
+    }
+    const result = await AuthService.loginWithTelegram(initData);
+    res.json({
+      success: true,
+      ...result
+    });
+  } catch (e: any) {
+    console.error('Telegram login error:', e);
+    res.status(401).json({ success: false, error: e.message || "Ошибка авторизации через Telegram" });
+  }}
 }
 
 export default new AuthController()

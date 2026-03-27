@@ -4,6 +4,7 @@ import CreateQusetionnaire from '../../edit-profile/ui/CreateQuestionnaire';
 import { authAPI } from '../../../shared/api/auth';
 import { cardApi } from '../../../shared/api/card';
 import { useNavigate } from 'react-router';
+import { useTelegram } from '../../../shared/api/telegram';
 
 function Authorization({ myCard }) {
   const navigate = useNavigate();
@@ -18,7 +19,9 @@ function Authorization({ myCard }) {
 
   const [accountAvailability, setAccountAvailability] = useState(false);
   const [ToQusetionnaire, setToQusetionnaire] = useState(false);
-  const [userId, setUserId] = useState<number | null>(null); // для передачи в анкету
+  const [userId, setUserId] = useState<number | null>(null);
+
+  const { initData } = useTelegram();
 
   function checkInput(value, type, setInputName, setInputValidName) {
     setInputName(value);
@@ -42,27 +45,21 @@ function Authorization({ myCard }) {
     }
   }, [password, rPassword]);
 
-  // Общая функция после успешной аутентификации (логин или регистрация)
   const handleSuccessfulAuth = async (userId: number) => {
     try {
-      // Пытаемся получить анкету
       const questionnaire = await cardApi.myCard();
       if (questionnaire && Object.keys(questionnaire).length > 0) {
-        // Анкета есть → сразу в ленту
         navigate('/flow');
       } else {
-        // Анкеты нет → показываем форму создания
         setUserId(userId);
         setToQusetionnaire(true);
       }
     } catch (error: any) {
-      // Если ошибка "Анкета не заполнена" — показываем форму создания
       if (error.message === 'Анкета не заполнена') {
         setUserId(userId);
         setToQusetionnaire(true);
       } else {
         console.error('Ошибка проверки анкеты:', error);
-        // В случае другой ошибки тоже переходим к созданию анкеты
         setUserId(userId);
         setToQusetionnaire(true);
       }
@@ -78,7 +75,6 @@ function Authorization({ myCard }) {
           if (!response.success) {
             throw new Error(response.error || 'Ошибка регистрации');
           }
-          // После успешной регистрации сразу логинимся
           const loginResponse = await authAPI.login(login, password);
           if (loginResponse.success) {
             await handleSuccessfulAuth(loginResponse.user.id);
@@ -173,11 +169,28 @@ function Authorization({ myCard }) {
     );
   }
 
+  const handleTelegramLogin = async () => {
+    if (!initData) {
+      alert('Telegram не обнаружен. Откройте приложение через Telegram.');
+      return;
+    }
+    try {
+      const response = await authAPI.telegramLogin(initData);
+      if (!response.success) {
+        throw new Error(response.error || 'Ошибка входа через Telegram');
+      }
+      await handleSuccessfulAuth(response.user.id);
+    } catch (err: any) {
+      console.error('Telegram login error:', err);
+      alert(err.message);
+    }
+  };
+
   function auth() {
     return (
       <div className="container">
         <div className="authorization">
-          <button>Войти с Telegram</button>
+          <button onClick={handleTelegramLogin}>Войти с Telegram</button>
           <p>Войти вручную</p>
           {accountAvailability ? loginForm() : registrationForm()}
         </div>

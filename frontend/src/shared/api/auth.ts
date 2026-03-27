@@ -58,9 +58,21 @@ export const authAPI = {
       return null;
     }
   },
-
   logout() {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
+  },
+  async telegramLogin(initData: string) {
+    const response = await fetch(`${defaultRef}/api/auth/telegram`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ initData })
+    });
+    const data = await response.json();
+    if (data.success) {
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+    }
+    return data;
   }
 }
