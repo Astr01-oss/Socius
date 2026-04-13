@@ -95,7 +95,6 @@ class CardService {
   async getFeed(userId: number, limit: number = 20) {
   const client = await pool.connect();
   try {
-    // Получаем свою анкету, чтобы узнать showGender
     const myCard = await client.query(
       `SELECT show_gender as "showGender" FROM questionnaires WHERE user_id = $1`,
       [userId]
@@ -105,7 +104,6 @@ class CardService {
     }
     const showGender = myCard.rows[0].showGender;
 
-    // Запрос на получение анкет
     const query = `
       SELECT q.user_id, q.name, q.age, q.gender, q.city, q.bio, q.interests, q.photos
       FROM questionnaires q

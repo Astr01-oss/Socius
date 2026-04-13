@@ -11,7 +11,6 @@ class AuthService {
 
     const client = await pool.connect();
     try {
-      // Проверяем существование пользователя
       const existing = await client.query('SELECT id FROM users WHERE phone = $1', [phone]);
       if (existing.rows.length > 0) {
         throw new Error('Пользователь уже существует!');
@@ -98,10 +97,8 @@ class AuthService {
     const telegramId = user.id;
     const telegramUsername = user.username || `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'TelegramUser';
 
-    // Ищем или создаем пользователя
     const dbUser = await this.findOrCreateUserByTelegramId(telegramId, telegramUsername);
     
-    // Генерируем JWT
     const token = jwt.sign({ id: dbUser.id }, SECRET, { expiresIn: '7d' });
 
     return {
@@ -113,7 +110,6 @@ class AuthService {
   private async findOrCreateUserByTelegramId(telegramId: number, username: string) {
     const client = await pool.connect();
     try {
-      // Пытаемся найти пользователя с таким telegram_id
       let result = await client.query(
         'SELECT id, phone, telegram_id FROM users WHERE telegram_id = $1',
         [telegramId]
@@ -122,8 +118,6 @@ class AuthService {
         return result.rows[0];
       }
 
-      // Если не найден, создаем нового пользователя
-      // Генерируем уникальный телефон-заглушку (чтобы не нарушать уникальность)
       const dummyPhone = `telegram_${telegramId}`;
       const resultInsert = await client.query(
         'INSERT INTO users (phone, password, telegram_id, telegram_username) VALUES ($1, $2, $3, $4) RETURNING id, phone, telegram_id',

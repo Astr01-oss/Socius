@@ -4,7 +4,6 @@ import 'dotenv/config';
 const init = async () => {
   const client = await pool.connect();
   try {
-    // Создание таблицы users
     await client.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -13,8 +12,6 @@ const init = async () => {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
-
-    // Создание таблицы questionnaires
     await client.query(`
       CREATE TABLE IF NOT EXISTS questionnaires (
         id SERIAL PRIMARY KEY,
@@ -31,8 +28,6 @@ const init = async () => {
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
-
-    // Создание таблицы likes
     await client.query(`
       CREATE TABLE IF NOT EXISTS likes (
         id SERIAL PRIMARY KEY,
@@ -43,8 +38,6 @@ const init = async () => {
         UNIQUE(user_id, target_user_id)
       );
     `);
-
-    // Создание таблицы matches
     await client.query(`
       CREATE TABLE IF NOT EXISTS matches (
         id SERIAL PRIMARY KEY,
@@ -54,7 +47,6 @@ const init = async () => {
         UNIQUE(user1_id, user2_id)
       );
     `);
-
     console.log('Таблицы успешно созданы');
   } catch (err) {
     console.error('Ошибка создания таблиц:', err);

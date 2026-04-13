@@ -46,7 +46,6 @@ export const authAPI = {
       if (data.success) {
         return data.user;
       } else {
-        // Если токен невалиден, удаляем его
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         return null;

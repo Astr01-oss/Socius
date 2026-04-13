@@ -45,7 +45,6 @@ function CreateQusetionnaire({ myCard, initialData, onSuccess }) {
       };
       try {
         await cardApi.createCard(myQuestionnaire);
-        // Обновляем данные в родительском компоненте, если передан колбэк
         if (myCard) myCard(myQuestionnaire);
         if (onSuccess) {
           onSuccess();
